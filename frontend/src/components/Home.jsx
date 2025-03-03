@@ -17,11 +17,12 @@ const Home = () => {
   const [visibleProductId, setVisibleProductId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [newProduct, setNewProduct] = useState({
+    id: null,
     name: "",
     desc: "",
     price: "",
-    image: null, // For file input
-    imageUrl: "", // For displaying the existing image URL
+    image: null,
+    imageUrl: "",
     category: "",
   });
   const [showAddProductForm, setShowAddProductForm] = useState(false);
@@ -43,7 +44,7 @@ const Home = () => {
   };
 
   // Add or update product handler
-  const handleAddNewProduct = async (e) => {
+  const handleAddOrUpdateProduct = async (e) => {
     e.preventDefault();
 
     // Validate required fields
@@ -59,23 +60,27 @@ const Home = () => {
       formData.append("price", newProduct.price);
       formData.append("category", newProduct.category);
 
-      // Include the product ID when editing
-      if (isEditing) {
-        formData.append("id", newProduct.id); // Ensure the ID is included
-      }
-
-      // Append the image file if it exists
       if (newProduct.image) {
         formData.append("image", newProduct.image);
-      } else if (isEditing && newProduct.imageUrl) {
-        // If editing and no new image is uploaded, retain the existing image URL
+      } else if (newProduct.imageUrl) {
         formData.append("imageUrl", newProduct.imageUrl);
       }
 
-      const response = await addNewProduct(formData).unwrap();
-      toast.success(isEditing ? "Product updated successfully!" : "Product added successfully!");
+      const url = isEditing
+        ? `http://localhost:5000/products/${newProduct.id}`
+        : "http://localhost:5000/products";
+      const method = isEditing ? "PUT" : "POST";
 
-      // Reset the form and refetch products
+      const response = await fetch(url, {
+        method,
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to process product");
+      }
+
+      toast.success(`Product ${isEditing ? "updated" : "added"} successfully!`);
       setNewProduct({
         name: "",
         desc: "",
@@ -85,11 +90,11 @@ const Home = () => {
         category: "",
       });
       setShowAddProductForm(false);
-
-      // Refetch products to ensure the frontend has the latest data
+      setIsEditing(false);
       await refetch();
     } catch (error) {
-      toast.error("Failed to save product: " + error.message);
+      console.error("Error processing product:", error);
+      toast.error(`Failed to ${isEditing ? "update" : "add"} product: ${error.message}`);
     }
   };
 
@@ -113,23 +118,24 @@ const Home = () => {
           category: "",
         });
         setShowAddProductForm(false);
-        refetch();
+        setIsEditing(false);
+        await refetch();
       } catch (error) {
+        console.error("Error deleting product:", error);
         toast.error("Failed to delete product: " + error.message);
       }
     }
   };
 
-  // Edit product handler
-  const handleEditProduct = (product) => {
-    console.log("Editing Product:", product); // Log the product being edited
-    setNewProduct({
-      ...product,
-      imageUrl: product.image, // Set the existing image URL
-      image: null, // Reset the file input
-    });
-    setIsEditing(true);
-    setShowAddProductForm(true);
+  // Toggle product details visibility
+  const toggleDetails = (productId) => {
+    setVisibleProductId((prevId) => (prevId === productId ? null : productId));
+  };
+
+  // Function to construct the full image URL
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return "path/to/fallback/image.jpg"; // Fallback image
+    return imagePath; // Cloudinary URLs are already absolute
   };
 
   // Group products by category
@@ -148,24 +154,6 @@ const Home = () => {
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.desc.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  // Toggle product details visibility
-  const toggleDetails = (productId) => {
-    setVisibleProductId((prevId) => (prevId === productId ? null : productId));
-  };
-
-  // Function to construct the full image URL
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return "path/to/fallback/image.jpg"; // Fallback image
-
-    // If the imagePath is already a full URL (starts with "http"), return it as-is
-    if (imagePath.startsWith("http")) {
-      return imagePath;
-    }
-
-    // Otherwise, prepend the backend URL for dynamically uploaded images
-    return `http://localhost:5000${imagePath}`;
-  };
 
   return (
     <div className="home-container">
@@ -207,7 +195,7 @@ const Home = () => {
 
       {/* Add/Edit Product Form */}
       {showAddProductForm && (
-        <form onSubmit={handleAddNewProduct} className="add-product-form" encType="multipart/form-data">
+        <form onSubmit={handleAddOrUpdateProduct} className="add-product-form" encType="multipart/form-data">
           <input
             type="text"
             placeholder="Product Name"
@@ -229,7 +217,6 @@ const Home = () => {
             onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
             required
           />
-          {/* Display existing image */}
           {newProduct.imageUrl && (
             <div>
               <img
@@ -239,7 +226,6 @@ const Home = () => {
               />
             </div>
           )}
-          {/* File input for new image */}
           <input
             type="file"
             onChange={(e) => {
@@ -247,7 +233,7 @@ const Home = () => {
                 setNewProduct({ ...newProduct, image: e.target.files[0] });
               }
             }}
-            required={!isEditing} // Only require the file if it's a new product
+            required={!isEditing}
           />
           <input
             type="text"
@@ -300,7 +286,19 @@ const Home = () => {
                           </button>
                           <button
                             className="edit-product-btn"
-                            onClick={() => handleEditProduct(product)}
+                            onClick={() => {
+                              setNewProduct({
+                                id: product.id,
+                                name: product.name,
+                                desc: product.desc,
+                                price: product.price,
+                                image: null,
+                                imageUrl: product.image,
+                                category: product.category,
+                              });
+                              setShowAddProductForm(true);
+                              setIsEditing(true);
+                            }}
                           >
                             Edit
                           </button>
@@ -344,7 +342,19 @@ const Home = () => {
                               </button>
                               <button
                                 className="edit-product-btn"
-                                onClick={() => handleEditProduct(product)}
+                                onClick={() => {
+                                  setNewProduct({
+                                    id: product.id,
+                                    name: product.name,
+                                    desc: product.desc,
+                                    price: product.price,
+                                    image: null,
+                                    imageUrl: product.image,
+                                    category: product.category,
+                                  });
+                                  setShowAddProductForm(true);
+                                  setIsEditing(true);
+                                }}
                               >
                                 Edit
                               </button>

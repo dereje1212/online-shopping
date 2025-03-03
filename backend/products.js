@@ -6,7 +6,7 @@ const products = [
     category: "Smartphones",
     desc: "6.1-inch display",
     price: 999,
-    image: "http://localhost:5000/images/iphone12pro.jpg",
+    image: "https://res.cloudinary.com/djqcbu4jl/image/upload/v1740947593/iphone12pro_xcz7ds.jpg",
   },
   {
     id: 2,
@@ -16,7 +16,7 @@ const products = [
     desc: "5.4-inch mini display",
     price: 699,
     image:
-      "http://localhost:5000/images/iphone12.jpg",
+      "https://res.cloudinary.com/djqcbu4jl/image/upload/v1740947927/iphone12_qrt2jy.jpg",
   },
   {
     id: 3,
@@ -26,7 +26,7 @@ const products = [
     desc: "6.5-inch display",
     price: 399,
     image:
-      "http://localhost:5000/images/galaxyS.png",
+      "https://res.cloudinary.com/djqcbu4jl/image/upload/v1740947926/galaxyS_sm8fcv.png",
   },
   {
     id: 4,
@@ -35,7 +35,7 @@ const products = [
     category: "Laptops",
     desc: "14.3-inch display, Intel(R) Core(TM) i5-7300U CPU @ 2.60GHz   2.71 GHz, Install RAM 8GB",
     price: 40000,
-    image: "http://localhost:5000/images/HP.webp",
+    image: "https://res.cloudinary.com/djqcbu4jl/image/upload/v1740947927/HP_obhhvy.webp",
   },
   {
     id: 5,
@@ -44,7 +44,7 @@ const products = [
     category: "Laptops",
     desc: "13-inch Retina display,Intel(R) Core(TM) i7-9300U CPU @ 2.60GHz   2.71 GHz, Install RAM 16GB",
     price: 999,
-    image: "http://localhost:5000/images/dell.jpg",
+    image: "https://res.cloudinary.com/djqcbu4jl/image/upload/v1740947927/dell_z2dcgk.jpg",
   },
   {
     id: 6,
@@ -53,7 +53,7 @@ const products = [
     category: "Laptops",
     desc: "13-inch Retina display,Intel(R) Core(TM) i7-9300U CPU @ 2.60GHz   2.71 GHz, Install RAM 16GB",
     price: 999,
-    image: "http://localhost:5000/images/toshiba.jpg",
+    image: "https://res.cloudinary.com/djqcbu4jl/image/upload/v1740947928/toshiba_ljrwxf.jpg",
   },
   {
     id: 7,
@@ -62,7 +62,7 @@ const products = [
     category: "Laptops",
     desc: "13-inch Retina display",
     price: 999,
-    image: "http://localhost:5000/images/mac.avif",
+    image: "https://res.cloudinary.com/djqcbu4jl/image/upload/v1740947927/mac_oujzwm.avif",
   },
   {
     id: 8,
@@ -71,7 +71,7 @@ const products = [
     category: "Printers",
     desc: "Wireless monochrome laser printer",
     price: 249,
-    image: "http://localhost:5000/images/Printer.webp",
+    image: "https://res.cloudinary.com/djqcbu4jl/image/upload/v1740947927/Printer_rndnx0.webp",
   },
   {
     id: 9,
@@ -80,7 +80,7 @@ const products = [
     category: "Printers",
     desc: "Wireless monochrome laser printer",
     price: 249,
-    image: "http://localhost:5000/images/pro.webp",
+    image: "https://res.cloudinary.com/djqcbu4jl/image/upload/v1740947927/pro_ewbt9i.webp",
   },
   {
     id: 10,
@@ -89,7 +89,7 @@ const products = [
     category: "Printers",
     desc: "Wireless monochrome laser printer",
     price: 249,
-    image: "http://localhost:5000/images/pro12.webp",
+    image: "https://res.cloudinary.com/djqcbu4jl/image/upload/v1740947927/pro12_af3q1d.webp",
   },
   {
     id: 12,
@@ -98,7 +98,7 @@ const products = [
     category: "Printers",
     desc: "Wireless laser printer",
     price: 249,
-    image: "http://localhost:5000/images/scanner.avif",
+    image: "https://res.cloudinary.com/djqcbu4jl/image/upload/v1740947928/scanner_sisifs.avif",
   },
 ];
 
