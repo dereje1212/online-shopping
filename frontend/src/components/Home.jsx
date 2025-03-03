@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { addToCart } from "../slices/cartSlice";
 import {
   useGetAllProductsQuery,
-  useAddNewProductMutation,
+ // useAddNewProductMutation,
   useDeleteProductMutation,
 } from "../slices/productsApi";
 import { toast } from "react-toastify";
@@ -30,7 +30,7 @@ const Home = () => {
 
   // RTK Query hooks
   const { data: products, error, isLoading, refetch } = useGetAllProductsQuery();
-  const [addNewProduct] = useAddNewProductMutation();
+  //const [addNewProduct] = useAddNewProductMutation();
   const [deleteProduct] = useDeleteProductMutation();
 
   // Add to cart handler
