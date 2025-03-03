@@ -18,12 +18,14 @@
     "react-toastify": "^7.0.4",
     "web-vitals": "^1.1.2"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "cross-env CI=false react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
+  
+    "scripts": {
+      "start": "react-scripts start",
+      "build": "set NODE_OPTIONS=--openssl-legacy-provider && react-scripts build",
+      "test": "react-scripts test",
+      "eject": "react-scripts eject"
+    }
+  ,
   "eslintConfig": {
     "extends": [
       "react-app",
