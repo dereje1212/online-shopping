@@ -1,23 +1,17 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build"
-    },
-    {
-      "src": "backend/index.js",
-      "use": "@vercel/node"
+  "build": {
+    "env": {
+      "NODE_OPTIONS": "--openssl-legacy-provider"
     }
-  ],
+  },
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/backend/$1"
+      "dest": "backend/index.js"
     },
     {
       "src": "/(.*)",
-      "dest": "/frontend/$1"
+      "dest": "frontend/build/$1"
     }
   ]
 }
