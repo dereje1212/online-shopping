@@ -51,40 +51,40 @@ const uploadToCloudinary = (buffer) => {
     streamifier.createReadStream(buffer).pipe(stream);
   });
 };
-app.put("/products/:id", upload.single("image"), async (req, res) => {
-  const productId = parseInt(req.params.id);
-  const { name, price, desc, category, imageUrl } = req.body;
+// app.put("/products/:id", upload.single("image"), async (req, res) => {
+//   const productId = parseInt(req.params.id);
+//   const { name, price, desc, category, imageUrl } = req.body;
 
-  // Find the product
-  const productIndex = products.findIndex((p) => p.id === productId);
-  if (productIndex === -1) {
-    return res.status(404).json({ message: "Product not found" });
-  }
+//   // Find the product
+//   const productIndex = products.findIndex((p) => p.id === productId);
+//   if (productIndex === -1) {
+//     return res.status(404).json({ message: "Product not found" });
+//   }
 
-  let updatedImageUrl = imageUrl || products[productIndex].image; // Use existing image if not changed
+//   let updatedImageUrl = imageUrl || products[productIndex].image; // Use existing image if not changed
 
-  // If a new file is uploaded, upload to Cloudinary
-  if (req.file && req.file.buffer) {
-    try {
-      updatedImageUrl = await uploadToCloudinary(req.file.buffer);
-    } catch (error) {
-      return res.status(500).json({ message: "Image upload failed", error: error.message });
-    }
-  }
+//   // If a new file is uploaded, upload to Cloudinary
+//   if (req.file && req.file.buffer) {
+//     try {
+//       updatedImageUrl = await uploadToCloudinary(req.file.buffer);
+//     } catch (error) {
+//       return res.status(500).json({ message: "Image upload failed", error: error.message });
+//     }
+//   }
 
-  // Update the product
-  const updatedProduct = {
-    ...products[productIndex],
-    name: name || products[productIndex].name,
-    price: price ? parseFloat(price) : products[productIndex].price,
-    desc: desc || products[productIndex].desc,
-    category: category || products[productIndex].category,
-    image: updatedImageUrl,
-  };
+//   // Update the product
+//   const updatedProduct = {
+//     ...products[productIndex],
+//     name: name || products[productIndex].name,
+//     price: price ? parseFloat(price) : products[productIndex].price,
+//     desc: desc || products[productIndex].desc,
+//     category: category || products[productIndex].category,
+//     image: updatedImageUrl,
+//   };
 
-  products[productIndex] = updatedProduct;
-  res.status(200).json(updatedProduct);
-});
+//   products[productIndex] = updatedProduct;
+//   res.status(200).json(updatedProduct);
+// });
 
 // Add a new product
 app.post("/products", upload.single("image"), async (req, res) => {
