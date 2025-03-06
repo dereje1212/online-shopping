@@ -5,8 +5,9 @@
   "main": "index.js",
   "proxy": "http://localhost:5000",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:api\"",
+    "start:frontend": "npm --prefix frontend run start",
+    "start:api": "node api/index.js"
   },
   "keywords": [],
   "author": "",
