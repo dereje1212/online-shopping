@@ -67,8 +67,8 @@ const Home = () => {
       }
 
       const url = isEditing
-        ? `http://localhost:5000/products/${newProduct.id}`
-        : "http://localhost:5000/products";
+        ? `https://service-6kef.onrender.com/products/${newProduct.id}`
+        : "https://service-6kef.onrender.com/products";
       const method = isEditing ? "PUT" : "POST";
 
       const response = await fetch(url, {
