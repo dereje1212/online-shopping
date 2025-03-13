@@ -12,7 +12,7 @@ export const productsFetch = createAsyncThunk(
   "products/productsFetch",
   async () => {
     try {
-      const response = await axios.get("https://service-6kef.onrender.com");
+      const response = await axios.get("https://service-6kef.onrender.com/products");
       return response.data;
     } catch (error) {
       console.log(error);
