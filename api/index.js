@@ -24,7 +24,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: "http://localhost:3000" })); // Allow frontend access
+app.use(cors({ origin: "https://online-shopping-atwz.vercel.app" })); // Allow frontend access
 
 // Root route
 app.get("/", (req, res) => {
